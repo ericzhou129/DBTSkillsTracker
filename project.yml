@@ -14,10 +14,12 @@ targets:
     sources:
       - DBTSkillsTracker
     settings:
+      ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
       INFOPLIST_KEY_UIApplicationSceneManifest_Generation: true
       INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents: true
       INFOPLIST_KEY_UILaunchScreen_Generation: true
-      INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone: "UIInterfaceOrientationPortrait"
+      INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone: "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight"
+      INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad: "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight"
       INFOPLIST_KEY_CFBundleDisplayName: "DBT Tracker"
       GENERATE_INFOPLIST_FILE: true
       PRODUCT_BUNDLE_IDENTIFIER: com.ericzhou.DBTSkillsTracker

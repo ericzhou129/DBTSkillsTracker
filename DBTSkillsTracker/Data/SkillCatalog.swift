@@ -51,7 +51,7 @@ struct SkillCatalog {
             "Accumulating Positive Emotions (Short Term)",
             "Accumulating Positive Emotions (Long Term)", "Building Mastery",
             "Cope Ahead", "PLEASE Skills", "Nightmare Protocol", "Sleep Hygiene",
-            "Mindfulness of Current Emotions", "Managing Extreme Emotions",
+            "Mindfulness of Current Emotions", "Emotion Exposure", "Managing Extreme Emotions",
             "Troubleshooting ER Skills"
         ],
         .distressTolerance: [
@@ -67,4 +67,22 @@ struct SkillCatalog {
             "Alternate Rebellion", "Adaptive Denial"
         ]
     ]
+}
+
+struct SkillFieldConfig {
+    let showTrigger: Bool
+    let showEmotion: Bool
+    let showUrge: Bool
+
+    static let configs: [SkillCategory: SkillFieldConfig] = [
+        .coreMindfulness:            SkillFieldConfig(showTrigger: false, showEmotion: false, showUrge: false),
+        .interpersonalEffectiveness: SkillFieldConfig(showTrigger: true,  showEmotion: true,  showUrge: false),
+        .emotionRegulation:          SkillFieldConfig(showTrigger: true,  showEmotion: true,  showUrge: false),
+        .distressTolerance:          SkillFieldConfig(showTrigger: true,  showEmotion: true,  showUrge: true),
+        .distressToleranceAddiction: SkillFieldConfig(showTrigger: true,  showEmotion: true,  showUrge: true),
+    ]
+
+    static func config(for category: SkillCategory) -> SkillFieldConfig {
+        configs[category] ?? SkillFieldConfig(showTrigger: false, showEmotion: false, showUrge: false)
+    }
 }

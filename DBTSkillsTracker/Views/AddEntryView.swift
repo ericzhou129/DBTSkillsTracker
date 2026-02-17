@@ -10,6 +10,9 @@ struct AddEntryView: View {
     @State private var date: Date = .now
     @State private var notes: String = ""
     @State private var expandedSkillInfo: String?
+    @State private var trigger: String = ""
+    @State private var emotion: String = ""
+    @State private var urge: String = ""
 
     private var canSave: Bool {
         selectedCategory != nil && selectedSkill != nil
@@ -25,6 +28,12 @@ struct AddEntryView: View {
                     }
                     if selectedSkill != nil {
                         dateSection
+                        if let selectedCategory {
+                            let config = SkillFieldConfig.config(for: selectedCategory)
+                            if config.showTrigger || config.showEmotion || config.showUrge {
+                                contextSection(config: config)
+                            }
+                        }
                         notesSection
                     }
                 }
@@ -59,6 +68,9 @@ struct AddEntryView: View {
                         withAnimation(.easeInOut(duration: 0.2)) {
                             selectedCategory = category
                             selectedSkill = nil
+                            trigger = ""
+                            emotion = ""
+                            urge = ""
                         }
                     } label: {
                         HStack(spacing: 12) {
@@ -204,6 +216,50 @@ struct AddEntryView: View {
         }
     }
 
+    // MARK: - Context Fields
+
+    private func contextSection(config: SkillFieldConfig) -> some View {
+        VStack(alignment: .leading, spacing: 0) {
+            sectionHeader("Context")
+
+            VStack(spacing: 0) {
+                if config.showTrigger {
+                    TextField("What prompted this?", text: $trigger)
+                        .font(.body)
+                        .padding(.horizontal, 16)
+                        .padding(.vertical, 12)
+                }
+                if config.showTrigger && config.showEmotion {
+                    Divider().padding(.leading, 16)
+                }
+                if config.showEmotion {
+                    TextField("What were you feeling?", text: $emotion)
+                        .font(.body)
+                        .padding(.horizontal, 16)
+                        .padding(.vertical, 12)
+                }
+                if config.showEmotion && config.showUrge {
+                    Divider().padding(.leading, 16)
+                }
+                if config.showUrge {
+                    TextField("What urge were you resisting?", text: $urge)
+                        .font(.body)
+                        .padding(.horizontal, 16)
+                        .padding(.vertical, 12)
+                }
+            }
+            .background(Color(.systemBackground))
+            .clipShape(RoundedRectangle(cornerRadius: 10))
+            .padding(.horizontal, 16)
+
+            Text("Optional")
+                .font(.caption)
+                .foregroundStyle(.tertiary)
+                .padding(.horizontal, 32)
+                .padding(.top, 6)
+        }
+    }
+
     // MARK: - Helpers
 
     private func sectionHeader(_ title: String) -> some View {
@@ -222,7 +278,10 @@ struct AddEntryView: View {
             skillName: selectedSkill,
             category: selectedCategory.rawValue,
             timestamp: date,
-            notes: notes.trimmingCharacters(in: .whitespacesAndNewlines)
+            notes: notes.trimmingCharacters(in: .whitespacesAndNewlines),
+            trigger: trigger.trimmingCharacters(in: .whitespacesAndNewlines),
+            emotion: emotion.trimmingCharacters(in: .whitespacesAndNewlines),
+            urge: urge.trimmingCharacters(in: .whitespacesAndNewlines)
         )
         modelContext.insert(entry)
         dismiss()
